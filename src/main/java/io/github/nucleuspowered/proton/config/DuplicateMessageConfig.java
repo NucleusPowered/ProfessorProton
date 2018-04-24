@@ -9,7 +9,7 @@ public class DuplicateMessageConfig {
     @Setting
     private int warnThreshold = 2;
     @Setting
-    private float match = 0.90F;
+    private double match = 0.90;
     @Setting
     private int minLength = 5;
     @Setting
@@ -23,7 +23,7 @@ public class DuplicateMessageConfig {
         return warnThreshold;
     }
 
-    public float getMatch() {
+    public double getMatch() {
         return match;
     }
 
