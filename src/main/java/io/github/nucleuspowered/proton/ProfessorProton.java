@@ -9,7 +9,7 @@ import io.github.nucleuspowered.proton.listener.DuplicateMessageListener;
 import io.github.nucleuspowered.proton.listener.MentionListener;
 import io.github.nucleuspowered.proton.listener.MessageListener;
 import io.github.nucleuspowered.proton.listener.PrivateMessageListener;
-import io.github.nucleuspowered.proton.task.UpdateMessageCache;
+import io.github.nucleuspowered.proton.task.UpdateGuildMessageCache;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -80,7 +80,7 @@ public class ProfessorProton {
                             .maximumSize(config.getCache().getMaxSize())
                             .build()
             );
-            Thread t = new Thread(new UpdateMessageCache(guild, guildCacheMap.get(guild)));
+            Thread t = new Thread(new UpdateGuildMessageCache(guild, guildCacheMap.get(guild)), "UpdateGuildMessageCache");
             t.run();
         }
 

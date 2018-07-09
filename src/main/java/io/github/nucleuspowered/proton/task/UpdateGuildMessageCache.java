@@ -5,12 +5,12 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-public class UpdateMessageCache implements Runnable {
+public class UpdateGuildMessageCache implements Runnable {
 
     private final Guild guild;
     private final Cache<String, Message> cache;
 
-    public UpdateMessageCache(Guild guild, Cache<String, Message> cache) {
+    public UpdateGuildMessageCache(Guild guild, Cache<String, Message> cache) {
         this.guild = guild;
         this.cache = cache;
     }

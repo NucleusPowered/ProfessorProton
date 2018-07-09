@@ -46,6 +46,7 @@ public class DuplicateMessageListener extends ListenerAdapter {
 
             // Count messages that exceed the min length and match requirement
             int duplicates = (int) messages.stream()
+                    .filter(m -> !event.getMessageId().equals(m.getId()))
                     .filter(m -> event.getMessage().getContentStripped().length() >= config.getMinLength() &&
                             StringUtils.getJaroWinklerDistance(m.getContentStripped(), event.getMessage().getContentStripped()) >= config.getMatch())
                     .count();
