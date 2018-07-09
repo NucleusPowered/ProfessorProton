@@ -1,6 +1,5 @@
 package io.github.nucleuspowered.proton.listener;
 
-import com.google.common.collect.Lists;
 import io.github.nucleuspowered.proton.ProfessorProton;
 import io.github.nucleuspowered.proton.config.DuplicateMessageConfig;
 import net.dv8tion.jda.core.entities.Message;
@@ -19,7 +18,7 @@ public class DuplicateMessageListener extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         // Only check members without a role, when enabled
         if (!event.getAuthor().isBot() && ProfessorProton.getInstance().getConfig().getDuplicateMessage().isEnabled()
-                /*&& event.getMember().getRoles().isEmpty()*/) {
+            /*&& event.getMember().getRoles().isEmpty()*/) {
             Thread t = new Thread(new DuplicateMessageThread(event), "deduplicate");
             t.start();
         }
@@ -40,11 +39,9 @@ public class DuplicateMessageListener extends ListenerAdapter {
 
             DuplicateMessageConfig config = ProfessorProton.getInstance().getConfig().getDuplicateMessage();
             ProfessorProton.LOGGER.debug("Checking {}'s message for duplicates.", event.getMember().getEffectiveName());
-            List<Message> messages = Lists.newArrayList();
-            event.getGuild().getTextChannels().forEach(c -> messages.addAll(c.getHistory().retrievePast(50).complete().stream()
+            List<Message> messages = ProfessorProton.getInstance().getGuildMessageCache(event.getGuild()).asMap().values().stream()
                     .filter(m -> m.getAuthor().getId().equals(event.getAuthor().getId()))
-                    .collect(Collectors.toList())
-            ));
+                    .collect(Collectors.toList());
             ProfessorProton.LOGGER.debug("Found {} recent message from {}.", messages.size(), event.getMember().getEffectiveName());
 
             // Count messages that exceed the min length and match requirement

@@ -9,6 +9,8 @@ public class BotConfig {
     @Setting
     private DiscordConfig discord = new DiscordConfig();
     @Setting
+    private CacheConfig cache = new CacheConfig();
+    @Setting
     private MentionConfig mention = new MentionConfig();
     @Setting
     private SupportConfig support = new SupportConfig();
@@ -17,6 +19,10 @@ public class BotConfig {
 
     public DiscordConfig getDiscord() {
         return discord;
+    }
+
+    public CacheConfig getCache() {
+        return cache;
     }
 
     public MentionConfig getMention() {
