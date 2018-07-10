@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.api.client.util.Maps;
 import io.github.nucleuspowered.proton.config.BotConfig;
 import io.github.nucleuspowered.proton.config.ConfigManager;
-import io.github.nucleuspowered.proton.listener.DuplicateMessageListener;
 import io.github.nucleuspowered.proton.listener.MentionListener;
 import io.github.nucleuspowered.proton.listener.MessageListener;
 import io.github.nucleuspowered.proton.listener.PrivateMessageListener;
@@ -67,7 +66,6 @@ public class ProfessorProton {
                 .setToken(config.getDiscord().getToken())
                 .addEventListener(new MessageListener())
                 .addEventListener(new PrivateMessageListener())
-                .addEventListener(new DuplicateMessageListener())
                 .addEventListener(new MentionListener())
                 .buildBlocking();
 

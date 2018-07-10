@@ -16,6 +16,8 @@ public class BotConfig {
     private SupportConfig support = new SupportConfig();
     @Setting
     private DuplicateMessageConfig duplicateMessage = new DuplicateMessageConfig();
+    @Setting
+    private JustAskConfig justAsk = new JustAskConfig();
 
     public DiscordConfig getDiscord() {
         return discord;
@@ -35,5 +37,9 @@ public class BotConfig {
 
     public DuplicateMessageConfig getDuplicateMessage() {
         return duplicateMessage;
+    }
+
+    public JustAskConfig getJustAsk() {
+        return justAsk;
     }
 }
