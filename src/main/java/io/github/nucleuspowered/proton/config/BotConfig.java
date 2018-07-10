@@ -18,6 +18,8 @@ public class BotConfig {
     private DuplicateMessageConfig duplicateMessage = new DuplicateMessageConfig();
     @Setting
     private JustAskConfig justAsk = new JustAskConfig();
+    @Setting
+    private int warningCooldown = 10;
 
     public DiscordConfig getDiscord() {
         return discord;
@@ -41,5 +43,9 @@ public class BotConfig {
 
     public JustAskConfig getJustAsk() {
         return justAsk;
+    }
+
+    public int getWarningCooldown() {
+        return warningCooldown;
     }
 }

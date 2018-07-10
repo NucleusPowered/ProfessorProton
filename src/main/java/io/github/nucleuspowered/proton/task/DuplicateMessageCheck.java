@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class DuplicateMessageCheck implements Runnable {
+public class DuplicateMessageCheck extends BaseTask {
 
     private GuildMessageReceivedEvent event;
 
-    public DuplicateMessageCheck(GuildMessageReceivedEvent event) {
+    public DuplicateMessageCheck(GuildMessageReceivedEvent event, boolean suppressWarnings) {
+        super(suppressWarnings);
         this.event = event;
     }
 
@@ -42,8 +43,11 @@ public class DuplicateMessageCheck implements Runnable {
         ProfessorProton.LOGGER.debug("Found {} similar messages.", duplicates);
 
         if (duplicates >= config.getWarnThreshold()) {
-            event.getChannel().sendMessage(config.getMessage().replace("{{user}}", event.getMember().getAsMention())).queue();
-            ProfessorProton.LOGGER.info("{} warned for sending {} duplicate messages.", event.getMember().getEffectiveName(), duplicates);
+            if (!suppressWarnings) {
+                event.getChannel().sendMessage(config.getMessage().replace("{{user}}", event.getMember().getAsMention())).queue();
+                ProfessorProton.getInstance().getLastWarning().put(event.getAuthor(), event.getMessage().getCreationTime().toInstant());
+            }
+            ProfessorProton.LOGGER.info("Detected duplicated message ({}) from {}.", duplicates, event.getMember().getEffectiveName());
         }
 
         sw.stop();

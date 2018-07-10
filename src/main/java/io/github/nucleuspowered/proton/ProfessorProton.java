@@ -14,6 +14,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.User;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -21,7 +22,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.security.auth.login.LoginException;
 
@@ -37,6 +40,8 @@ public class ProfessorProton {
     private JDA jda;
 
     private Map<Guild, Cache<String, Message>> guildCacheMap = Maps.newHashMap();
+
+    private Map<User, Instant> lastWarning = Maps.newHashMap();
 
     public static void main(String[] args) {
         instance = new ProfessorProton();
@@ -95,6 +100,14 @@ public class ProfessorProton {
 
     public Cache<String, Message> getGuildMessageCache(Guild guild) {
         return guildCacheMap.get(guild);
+    }
+
+    public Map<User, Instant> getLastWarning() {
+        return lastWarning;
+    }
+
+    public Optional<Instant> getLastWarning(User user) {
+        return Optional.ofNullable(lastWarning.get(user));
     }
 
     public BotConfig getConfig() {
