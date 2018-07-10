@@ -12,6 +12,7 @@ import io.github.nucleuspowered.proton.task.UpdateGuildMessageCache;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -69,6 +70,7 @@ public class ProfessorProton {
     private void initDiscordBot() throws LoginException, InterruptedException {
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getDiscord().getToken())
+                .setGame(Game.playing(config.getDiscord().getGame()))
                 .addEventListener(new MessageListener())
                 .addEventListener(new PrivateMessageListener())
                 .addEventListener(new MentionListener())
