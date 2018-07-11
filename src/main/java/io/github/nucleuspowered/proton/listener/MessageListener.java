@@ -14,7 +14,20 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+        // Professor Proton is always above reproach!
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+
         ProfessorProton.getInstance().getGuildMessageCache(event.getGuild()).put(event.getMessageId(), event.getMessage());
+
+        // Command Handler
+        // if (!)
+
+        // Staff tend to behave themselves...
+        if (!event.getMember().getRoles().isEmpty()) {
+            return;
+        }
 
         // Check if the user has been recently warned
         Optional<Instant> lastWarning = ProfessorProton.getInstance().getLastWarning(event.getAuthor());
@@ -22,7 +35,7 @@ public class MessageListener extends ListenerAdapter {
         if (lastWarning.isPresent() && Duration.between(lastWarning.get(), Instant.now()).getSeconds()
                 <= ProfessorProton.getInstance().getConfig().getWarningCooldown()) {
             // Ignore the user's message
-            ProfessorProton.LOGGER.info("{}'s last warning: {} sec(s). Warnings suppressed on current message.",
+            ProfessorProton.LOGGER.debug("{}'s last warning: {} sec(s). Warnings will be suppressed.",
                     event.getMember().getEffectiveName(),
                     Duration.between(lastWarning.get(), Instant.now()).getSeconds()
             );
@@ -31,15 +44,13 @@ public class MessageListener extends ListenerAdapter {
 
         // Duplicate Message Check
         // Only check members without a role, when enabled
-        if (!event.getAuthor().isBot() && ProfessorProton.getInstance().getConfig().getDuplicateMessage().isEnabled()
-                && event.getMember().getRoles().isEmpty()) {
+        if (ProfessorProton.getInstance().getConfig().getDuplicateMessage().isEnabled()) {
             new Thread(new DuplicateMessageCheck(event, suppressWarnings), "deduplicate").start();
         }
 
         // Just Ask Check
         // Only check members without a role, when enabled
-        if (!event.getAuthor().isBot() && ProfessorProton.getInstance().getConfig().getDuplicateMessage().isEnabled()
-                && event.getMember().getRoles().isEmpty()) {
+        if (ProfessorProton.getInstance().getConfig().getDuplicateMessage().isEnabled()) {
             new Thread(new JustAskCheck(event, suppressWarnings), "just-ask").start();
         }
     }

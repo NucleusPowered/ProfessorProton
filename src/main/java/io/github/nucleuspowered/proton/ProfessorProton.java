@@ -90,6 +90,11 @@ public class ProfessorProton {
         }
 
         LOGGER.info("Bot initialization complete.");
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ProfessorProton.LOGGER.info("Bot shutting down.");
+            ProfessorProton.getInstance().getBot().shutdown();
+        }));
     }
 
     public static ProfessorProton getInstance() {

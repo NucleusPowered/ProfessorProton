@@ -45,7 +45,7 @@ dependencies {
     compile("net.dv8tion:JDA:3.6.0_354")
     compile("ninja.leaping.configurate:configurate-hocon:3.3")
     compile("com.github.ben-manes.caffeine:caffeine:2.6.2")
-    compile("com.github.ben-manes.caffeine:guava:2.6.2")
+    compile("com.h2database:h2:1.4.197")
 }
 
 shadowJar {

@@ -13,7 +13,7 @@ public class DiscordConfig {
     @Setting
     private String game = "";
     @Setting
-    private String logChannel = "";
+    private String consoleChannel = "";
 
     public String getToken() {
         return token;
@@ -27,7 +27,7 @@ public class DiscordConfig {
         return game;
     }
 
-    public String getLogChannel() {
-        return logChannel;
+    public String getConsoleChannelID() {
+        return consoleChannel;
     }
 }

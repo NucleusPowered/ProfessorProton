@@ -1,6 +1,7 @@
 package io.github.nucleuspowered.proton;
 
 import net.dv8tion.jda.core.entities.TextChannel;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
@@ -24,9 +25,10 @@ public class DiscordAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        if (channel == null && ProfessorProton.getInstance() != null && ProfessorProton.getInstance().getBot() != null) {
+        if (channel == null && ProfessorProton.getInstance() != null && ProfessorProton.getInstance().getBot() != null
+                && StringUtils.isNotBlank(ProfessorProton.getInstance().getConfig().getDiscord().getConsoleChannelID())) {
             channel = ProfessorProton.getInstance().getBot()
-                    .getTextChannelById(ProfessorProton.getInstance().getConfig().getDiscord().getLogChannel());
+                    .getTextChannelById(ProfessorProton.getInstance().getConfig().getDiscord().getConsoleChannelID());
         }
         if (channel != null && channel.canTalk()) {
             channel.sendMessage(event.getMessage().getFormattedMessage()).queue();
