@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" packages="io.github.nucleuspowered.proton">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} [%t][%p] %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+        <Discord name="Discord">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} [%t][%p] %m%n</Pattern>
+            </PatternLayout>
+        </Discord>
+        <RollingRandomAccessFile name="LogFile" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}.log" append="false">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} [%t][%p] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="LogFile"/>
+        </Root>
+        <Logger name="io.github.nucleuspowered.proton" additivity="false">
+            <AppenderRef ref="Discord" level="info"/>
+        </Logger>
+    </Loggers>
+</Configuration>
