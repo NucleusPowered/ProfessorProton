@@ -2,7 +2,6 @@ package io.github.nucleuspowered.proton;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.google.api.client.util.Maps;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import io.github.nucleuspowered.proton.command.QuarantineCommand;
@@ -16,7 +15,13 @@ import io.github.nucleuspowered.proton.listener.MentionListener;
 import io.github.nucleuspowered.proton.listener.MessageListener;
 import io.github.nucleuspowered.proton.listener.PrivateMessageListener;
 import io.github.nucleuspowered.proton.task.UpdateGuildMessageCache;
-import net.dv8tion.jda.api.AccountType;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -32,14 +37,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.security.auth.login.LoginException;
-
 public class ProfessorProton {
 
     private static ProfessorProton instance;
@@ -53,9 +50,9 @@ public class ProfessorProton {
 
     private TextChannel console;
 
-    private Map<Guild, Cache<String, Message>> guildCacheMap = Maps.newHashMap();
+    private final Map<Guild, Cache<String, Message>> guildCacheMap = new HashMap<>();
 
-    private Map<User, Instant> lastWarning = Maps.newHashMap();
+    private final Map<User, Instant> lastWarning = new HashMap<>();
 
     private Database database;
 
@@ -90,8 +87,7 @@ public class ProfessorProton {
                 .addCommand(new WarningCommand())
                 .addCommand(new QuarantineCommand())
                 .build();
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getDiscord().getToken())
+        jda = JDABuilder.createDefault(config.getDiscord().getToken())
                 .setActivity(Activity.playing(config.getDiscord().getGame()))
                 .addEventListeners(
                         commandClient,

@@ -25,6 +25,8 @@ public class BotConfig {
     @Setting
     private JustAskConfig justAsk = new JustAskConfig();
     @Setting
+    private LogConfig logConfig = new LogConfig();
+    @Setting
     private String ownerId = "";
     @Setting
     private String quarantineRoleId = "";
@@ -57,6 +59,10 @@ public class BotConfig {
 
     public JustAskConfig getJustAsk() {
         return justAsk;
+    }
+
+    public LogConfig getLogConfig() {
+        return logConfig;
     }
 
     public String getOwnerId() {
