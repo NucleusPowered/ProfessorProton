@@ -73,9 +73,10 @@ public class ProfessorProton {
     }
 
     private void initDiscordBot() throws LoginException, InterruptedException {
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getDiscord().getToken())
+        jda = JDABuilder
+                .createLight(config.getDiscord().getToken(), GatewayIntent.GUILD_MESSAGES)
                 .setActivity(Activity.playing(config.getDiscord().getGame()))
+                .setMemberCachePolicy(MemberCachePolicy.NONE)
                 .addEventListeners(
                         new CommandListener(),
                         new MessageListener(),
