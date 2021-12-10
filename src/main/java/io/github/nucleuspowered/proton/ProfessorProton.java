@@ -2,7 +2,6 @@ package io.github.nucleuspowered.proton;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.google.api.client.util.Maps;
 import io.github.nucleuspowered.proton.config.BotConfig;
 import io.github.nucleuspowered.proton.config.ConfigManager;
 import io.github.nucleuspowered.proton.listener.CommandListener;
@@ -10,14 +9,11 @@ import io.github.nucleuspowered.proton.listener.MentionListener;
 import io.github.nucleuspowered.proton.listener.MessageListener;
 import io.github.nucleuspowered.proton.listener.PrivateMessageListener;
 import io.github.nucleuspowered.proton.task.UpdateGuildMessageCache;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -25,12 +21,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.security.auth.login.LoginException;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.security.auth.login.LoginException;
 
 public class ProfessorProton {
 
@@ -45,9 +41,9 @@ public class ProfessorProton {
 
     private TextChannel console;
 
-    private Map<Guild, Cache<String, Message>> guildCacheMap = Maps.newHashMap();
+    private final Map<Guild, Cache<String, Message>> guildCacheMap = new HashMap<>();
 
-    private Map<User, Instant> lastWarning = Maps.newHashMap();
+    private final Map<User, Instant> lastWarning = new HashMap<>();
 
     public static void main(String[] args) {
         instance = new ProfessorProton();
